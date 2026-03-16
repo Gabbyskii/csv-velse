@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+    //arraylist sat i globaalt scope istedet for inde i metode parametre.
+    static ArrayList<Player> teams;
     // erklæret Scanner udenfor main metoden og gjort static så den er accessible fra metoder
     static Scanner reader; // = new Scanner(System.in);
     static String header;
@@ -24,11 +26,11 @@ public class Main {
                 String name = data[0];
                 String position = data[1].trim();
                 int heartrate = Integer.parseInt(data[2].trim());
-                int collision = Integer.parseInt(data[3]);
-                int km = Integer.parseInt(data[4]);
-                int speed = Integer.parseInt(data[5]);
-                int yCard = Integer.parseInt(data[6]);
-                int rCard = Integer.parseInt(data[7]);
+                int collision = Integer.parseInt(data[3].trim());
+                int km = Integer.parseInt(data[4].trim());
+                int speed = Integer.parseInt(data[5].trim());
+                boolean yCard = Boolean.parseBoolean(data[6].trim());
+                boolean rCard = Boolean.parseBoolean(data[7].trim());
 
                 Player p = new Player(name, position, heartrate, collision,km,speed,yCard,rCard);
                 team.add(p);
@@ -63,8 +65,10 @@ public class Main {
 
             for (Player t: teams) {
                 fileWriter.write(t.getName() + ", " + t.getPosition()
-                        + " , "+ t.getHeartrate()+ t.getKm() + t.getAvrTopSpeed()
-                        + t.getyCard() + t.getrCard()+ t.getCollisionCount()+" \n");
+                        + " , "+ t.getHeartrate()+" , "+ t.getKm() +
+                        " , "+ t.getAvrTopSpeed() + " , "
+                        + t.getyCard() + " , "+ t.getrCard()
+                        +" , "+ t.getCollisionCount()+" \n");
             }
             fileWriter.close();
         } catch (IOException e) {
@@ -72,6 +76,15 @@ public class Main {
         }
 
     }
+
+    public static void createPlayer(){
+        TextUI ui = new TextUI();
+        String name = ui.promptString("Hvad er spillerens navn?");
+
+        teams.add(name, "" , 0 , 0 , 0 , false , false , 0 );
+
+    }
+
 
 
 

@@ -6,11 +6,11 @@ public class Player {
    private int collisionCount;
    private int km;
    private int avrTopSpeed;
-   private int yCard;
-   private int rCard;
+   private boolean yCard;
+   private boolean rCard;
 
 
-    public Player(String name, String position, int heartrate, int collisionCount, int km, int avrTopSpeed, int yCard, int rCard) {
+    public Player(String name, String position, int heartrate, int collisionCount, int km, int avrTopSpeed, boolean yCard, boolean rCard) {
         this.name = name;
         this.position = position;
         this.heartrate = heartrate;
@@ -45,11 +45,11 @@ public class Player {
         this.heartrate = heartrate;
     }
 
-    public int getrCard() {
+    public boolean getrCard() {
         return rCard;
     }
 
-    public int getyCard() {
+    public boolean getyCard() {
         return yCard;
     }
 
