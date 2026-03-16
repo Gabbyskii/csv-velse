@@ -3,11 +3,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    //arraylist sat i globaalt scope istedet for inde i metode parametre.
+    // arraylist sat i globaalt scope istedet for inde i metode parametre
     static ArrayList<Player> teams;
     // erklæret Scanner udenfor main metoden og gjort static så den er accessible fra metoder
     static Scanner reader; // = new Scanner(System.in);
     static String header;
+    static TextUI ui = new TextUI();
 
     static void main() {
         ArrayList<Player> team = new ArrayList<>();
@@ -32,26 +33,34 @@ public class Main {
                 boolean yCard = Boolean.parseBoolean(data[6].trim());
                 boolean rCard = Boolean.parseBoolean(data[7].trim());
 
-                Player p = new Player(name, position, heartrate, collision,km,speed,yCard,rCard);
+                Player p = new Player(name, position, heartrate, collision, km, speed, yCard, rCard);
                 team.add(p);
-
-                System.out.println("\n===Team one===");
-                /*team.get(0).setName("Mbappe");
-                team.get(0).setPosition("Goalkeeper");
-                team.get(0).setHeartrate(165);
-                team.get(1).setPosition("hb");
-                team.get(2).setPosition("Angriber");*/
-                displayTeam(team);
-                saveData(team);
-
             }
             reader.close();
+
+
+            System.out.println("\n===Team one===");
+               displayTeam(team);
+
+            boolean continueReg = true;
+            while (continueReg) {
+                String input = ui.promptString("Vil du oprette en spiller til? y/n");
+                if (input.equals("y")) {
+                    createPlayer();
+                } else {
+                    continueReg = false;
+                }
+            }
+            saveData(team);
+
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
 
 
     }
+
+
 
     public static void displayTeam(ArrayList<Player> teams) {
         for (Player pl: teams) {
@@ -60,17 +69,23 @@ public class Main {
     }
 
     public static void saveData(ArrayList<Player> teams) {
+
         try {
             FileWriter fileWriter = new FileWriter("data/playerdata.csv");
 
-            for (Player t: teams) {
-                fileWriter.write(t.getName() + ", " + t.getPosition()
-                        + " , "+ t.getHeartrate()+" , "+ t.getKm() +
-                        " , "+ t.getAvrTopSpeed() + " , "
-                        + t.getyCard() + " , "+ t.getrCard()
-                        +" , "+ t.getCollisionCount()+" \n");
+            for (Player t : teams) {
+                fileWriter.write(
+                        t.getName() + "," +
+                        t.getPosition() + "," +
+                        t.getHeartrate() + "," +
+                        t.getCollisionCount() + "," +
+                        t.getKm() + "," +
+                        t.getAvrTopSpeed() + "," +
+                        t.getyCard() + "," +
+                        t.getrCard() + "\n");
             }
             fileWriter.close();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -78,11 +93,11 @@ public class Main {
     }
 
     public static void createPlayer(){
-        TextUI ui = new TextUI();
         String name = ui.promptString("Hvad er spillerens navn?");
 
-        teams.add(name, "" , 0 , 0 , 0 , false , false , 0 );
-
+        /*Player p = new Player(name, position, heartrate, collision, km, speed, yCard, rCard);
+        teams.add(p);*/
+        // obs: bruger den globale "teams", ikke den lokale "team" i main
     }
 
 

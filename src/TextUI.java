@@ -5,7 +5,7 @@ public class TextUI {
     protected Scanner scanner = new Scanner(System.in);
 
     // kode der indsættes automatisk og usynligt hvis vi ikke selv laver en konstruktør
-    public IO(){
+    public TextUI(){
         super();
     }
 
