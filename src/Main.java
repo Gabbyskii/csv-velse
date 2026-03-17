@@ -42,6 +42,7 @@ public class Main {
             System.out.println("\n===Team one===");
                displayTeam(team);
 
+
             boolean continueReg = true;
             while (continueReg) {
                 String input = ui.promptString("Vil du oprette en spiller til? y/n");
@@ -95,9 +96,10 @@ public class Main {
     public static void createPlayer(){
         String name = ui.promptString("Hvad er spillerens navn?");
 
-        /*Player p = new Player(name, position, heartrate, collision, km, speed, yCard, rCard);
-        teams.add(p);*/
-        // obs: bruger den globale "teams", ikke den lokale "team" i main
+        Player p = new Player(name, "HB", 0,
+                0, 0, 0, false, false);
+        teams.add(p);
+        //  bruger den globale "teams", ikke den lokale "team" i main
     }
 
 
