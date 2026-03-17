@@ -3,10 +3,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    // arraylist sat i globaalt scope istedet for inde i metode parametre
-    static ArrayList<Player> teams;
-    // erklæret Scanner udenfor main metoden og gjort static så den er accessible fra metoder
-    static Scanner reader; // = new Scanner(System.in);
+    static ArrayList<Player> team;
+    static Scanner reader;
     static String header;
     static TextUI ui = new TextUI();
 
@@ -15,13 +13,11 @@ public class Main {
 
         File file = new File("data/playerdata.csv");
         try {
-            // fjernet scanner herfra: Scanner reader = new Scanner(file);
-
             reader = new Scanner(file);
-            header = reader.nextLine(); // skipper header i filen
+            //header = reader.nextLine();
 
             while (reader.hasNextLine()) {
-                String line = reader.nextLine(); // vi vil kun have: "Phillip", "hb", 168,
+                String line = reader.nextLine();
                 String[] data = line.split(",");
 
                 String name = data[0];
@@ -29,81 +25,74 @@ public class Main {
                 int heartrate = Integer.parseInt(data[2].trim());
                 int collision = Integer.parseInt(data[3].trim());
                 int km = Integer.parseInt(data[4].trim());
-                int speed = Integer.parseInt(data[5].trim());
-                boolean yCard = Boolean.parseBoolean(data[6].trim());
-                boolean rCard = Boolean.parseBoolean(data[7].trim());
+                boolean yCard = Boolean.parseBoolean(data[5].trim());
+                boolean rCard = Boolean.parseBoolean(data[6].trim());
+                int speed = Integer.parseInt(data[7].trim());
 
-                Player p = new Player(name, position, heartrate, collision, km, speed, yCard, rCard);
+                Player p = new Player(name, position, heartrate, collision, km, speed,yCard, rCard);
                 team.add(p);
             }
             reader.close();
 
-
             System.out.println("\n===Team one===");
-               displayTeam(team);
-
+            displayTeam(team);
 
             boolean continueReg = true;
             while (continueReg) {
                 String input = ui.promptString("Vil du oprette en spiller til? y/n");
                 if (input.equals("y")) {
-                    createPlayer();
+                    createPlayer(team);
                 } else {
                     continueReg = false;
                 }
             }
             saveData(team);
+            displayTeam(team);
 
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
-
-
     }
 
-
-
     public static void displayTeam(ArrayList<Player> teams) {
-        for (Player pl: teams) {
+        for (Player pl : teams) {
             System.out.println(pl);
         }
     }
 
     public static void saveData(ArrayList<Player> teams) {
-
         try {
             FileWriter fileWriter = new FileWriter("data/playerdata.csv");
 
             for (Player t : teams) {
                 fileWriter.write(
                         t.getName() + "," +
-                        t.getPosition() + "," +
-                        t.getHeartrate() + "," +
-                        t.getCollisionCount() + "," +
-                        t.getKm() + "," +
-                        t.getAvrTopSpeed() + "," +
-                        t.getyCard() + "," +
-                        t.getrCard() + "\n");
+                                t.getPosition() + "," +
+                                t.getHeartrate() + "," +
+                                t.getCollisionCount() + "," +
+                                t.getKm() + "," +
+                                t.getAvrTopSpeed() +
+                                t.getyCard() + "," +
+                                t.getrCard() + "\n");
             }
             fileWriter.close();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
-    public static void createPlayer(){
+    public static void createPlayer(ArrayList<Player> team) {
         String name = ui.promptString("Hvad er spillerens navn?");
+        String position = ui.promptString("Hvad er spillerens position?");
+        int heartRate = ui.promptInt("Hvad er spillerens heartrate?");
+        int colCount = ui.promptInt("Hvad er spillerens collision count?");
+        int km = ui.promptInt("Hvad er spillerens hastighed i km?");
+        int topSpeed = ui.promptInt("Hvad er spillerens average top hastighed?");
+        boolean yCard = ui.promptBoolean("Har spilleren gult kort?");
+        boolean rCard = ui.promptBoolean("Har spilleren rødt kort?");
 
-        Player p = new Player(name, "HB", 0,
-                0, 0, 0, false, false);
-        teams.add(p);
-        //  bruger den globale "teams", ikke den lokale "team" i main
+        Player p = new Player(name, position, heartRate, colCount, km, topSpeed, yCard, rCard);
+        team.add(p);
     }
-
-
-
-
 }
-

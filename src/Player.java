@@ -69,13 +69,13 @@ public class Player {
     public String toString() {
         //return "Player: " + name +","+ position + ", "+ heartrate;
         String s = "Player: "+ this.name;
-        s += " (Position: "+ position + " &";
-        s += " HeartRate: "+ heartrate;
-        s += " CCount: "+ collisionCount;
-        s+= " Km: "+ km;
-        s+= " Top speed: "+avrTopSpeed;
-        s+= " yellow card: "+ yCard;
-        s+= " red card: "+ rCard+")\n";
+        s += " (Position: "+ position;
+        s += "| HeartRate: "+ heartrate;
+        s += "| CCount: "+ collisionCount;
+        s+= "| Km: "+ km;
+        s+= "| Top speed: "+avrTopSpeed;
+        s+= "| yellow card: "+ yCard;
+        s+= "| red card: "+ rCard+")\n";
         return s;
     }
 

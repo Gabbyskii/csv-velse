@@ -32,6 +32,14 @@ public class TextUI {
         return input;
     }
 
+    public Boolean promptBoolean(String msg){
+        printHashTags();
+        System.out.println(msg);
+        Boolean input = scanner.nextBoolean();
+        printHashTags();
+        return input;
+    }
+
     private void printHashTags(){
         System.out.println("###############");
     }
